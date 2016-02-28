@@ -25,15 +25,4 @@ class HomeControllerTest extends TestCase
             ->see('170')
             ->see('165');
     }
-
-//    public function test_add_weigh_via_weigh_in_form()
-//    {
-//        $this->visit('/')
-//            ->click('Weigh In')
-//            ->see('Add Weight')
-//            ->type('155', 'weight')
-//            ->type('2016-03-01', 'date')
-//            ->press('Save')
-//            ->seeInDatabase('weights', ['weight' => '155', 'date' => '2016-03-01']);
-//    }
 }
