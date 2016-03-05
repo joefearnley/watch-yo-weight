@@ -30,7 +30,4 @@
         $('#loading').hide();
         $('#chart').show();
     });
-
-
-
 })();
