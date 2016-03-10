@@ -41,6 +41,12 @@
     }
 }
 
+.weight-list {
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px #ddd solid;
+}
+
 #weight-list, #chart {
     display: none;
 }
