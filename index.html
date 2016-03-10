@@ -1,28 +1,35 @@
 <!doctype html>
-<html ng-app="weighIn">
+<html>
 <head>
     <title>Watch yo Weight</title>
-    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body ng-app="weighIn">
     <nav class="navbar navbar-inverse">
         <div class="container">
             <a class="navbar-brand" href="#">Watch Yo Weight</a>
             <div id="nav-controls" class="pull-right">
-                <a href="/" class="btn" data-toggle="tooltip" data-placement="left" title="List weigh ins"><i class="glyphicon glyphicon-stats"></i></a>
+                <a href="#/" class="btn" data-toggle="tooltip" data-placement="left" title="List weigh ins"><i class="glyphicon glyphicon-stats"></i></a>
                 <a href="#/list" id="btn-show-list" class="btn" data-toggle="tooltip" data-placement="left" title="List weigh ins"><i class="glyphicon glyphicon-th-list"></i></a>
-                <a href="#/add-weight" id="btn-show-weight-in-modal" class="btn" data-toggle="modal" data-target="#weigh-in-modal"><i class="glyphicon glyphicon-plus"></i></a>
+                <a href="#/add" id="btn-show-weight-in-modal" class="btn" data-toggle="modal" data-target="#weigh-in-modal"><i class="glyphicon glyphicon-plus"></i></a>
             </div>
         </div>
     </nav>
     <div class="container">
-        <div ng-view></div>
+        <div class="page {{ pageClass }}" ng-view></div>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <script src="js/all.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     <script src="js/app.js"></script>
 </body>
