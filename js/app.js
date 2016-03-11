@@ -13,7 +13,7 @@
             })
             .when('/add', {
                 templateUrl: 'views/add.html',
-                controller: 'WeightController'
+                controller: 'AddWeightController'
             });
     });
 
@@ -21,12 +21,11 @@
 
     app.service('rootRef', ['FirebaseUrl', Firebase]);
 
-    app.service('weights', function(rootRef, $firebaseObject,
-        $firebaseArray) {
+    app.service('weights', function(rootRef, $firebase, $firebaseArray) {
         var weightsRef = rootRef.child('weights');
 
         this.get = function(date) {
-            return $firebaseObject(weightsRef.child(date));
+            return $firebase(weightsRef.child(date));
         }
 
         this.all = function() {
@@ -38,25 +37,33 @@
 
         $scope.weights = weights.all();
 
-        //new Chartist.Line('.ct-chart', {
-        //    labels: response.dates,
-        //    series: [response.weights]
-        //}, {
-        //    low: 150
-        //});
+        // var chartData = $scope.weights.map(function(obj) {
+        //     this.dates.push(obj.date);
+        //     this.weights.push(obj.weight);
+        // });
+        //
+        // console.log(chartData);
+
+        // new Chartist.Line('.ct-chart', {
+        //     labels: response.dates,
+        //     series: [response.weights]
+        // }, {
+        //     low: 150
+        // });
         //
         //$('#loading').hide();
         //$('#chart').show();
     });
 
-    app.controller('ListController', function($scope, $firebaseObject) {
-        //$scope.weights = getData();
-
-
+    app.controller('ListController', function($scope, weights) {
+        $scope.weights = weights.all();
     });
 
-    app.controller('WeightController', function($scope) {
-        $scope.pageClass = 'page-add';
+    app.controller('AddWeightController', function($scope) {
+        $scope.addWeight = function() {
+            console.log($scope.weight);
+            console.log($scope.date);
+        }
     });
 
     function getData() {
