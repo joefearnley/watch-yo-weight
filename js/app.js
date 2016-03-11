@@ -17,7 +17,26 @@
             });
     });
 
-    app.controller('HomeController', function($scope) {
+    app.constant('FirebaseUrl', 'https://watch-yo-weight.firebaseio.com');
+
+    app.service('rootRef', ['FirebaseUrl', Firebase]);
+
+    app.service('weights', function(rootRef, $firebaseObject,
+        $firebaseArray) {
+        var weightsRef = rootRef.child('weights');
+
+        this.get = function(date) {
+            return $firebaseObject(weightsRef.child(date));
+        }
+
+        this.all = function() {
+            return $firebaseArray(weightsRef);
+        }
+    });
+
+    app.controller('HomeController', function($scope, weights) {
+
+        $scope.weights = weights.all();
 
         //new Chartist.Line('.ct-chart', {
         //    labels: response.dates,
@@ -33,7 +52,7 @@
     app.controller('ListController', function($scope, $firebaseObject) {
         //$scope.weights = getData();
 
-        var rootRef =
+
     });
 
     app.controller('WeightController', function($scope) {

@@ -1,1 +1,11 @@
-<div id="chart" class="ct-chart ct-perfect-fourth"></div>
+
+<div ng-controller="HomeController">
+
+    <div id="chart" class="ct-chart ct-perfect-fourth"></div>
+
+    <ul>
+        <li ng-repeat="weight in weights">
+            {{ weight.date }} | {{ weight.weight }}
+        </li>
+    </ul>
+</div>
