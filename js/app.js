@@ -33,26 +33,37 @@
         }
     });
 
-    app.controller('HomeController', function($scope, weights) {
+    app.controller('HomeController', function($scope, $filter, weights) {
 
         $scope.weights = weights.all();
 
-        // var chartData = $scope.weights.map(function(obj) {
-        //     this.dates.push(obj.date);
-        //     this.weights.push(obj.weight);
-        // });
-        //
-        // console.log(chartData);
+        var url = 'https://watch-yo-weight.firebaseio.com/weights';
+        var ref = new Firebase(url);
+        var chartData = {
+            dates: [],
+            weights: []
+        };
 
-        // new Chartist.Line('.ct-chart', {
-        //     labels: response.dates,
-        //     series: [response.weights]
-        // }, {
-        //     low: 150
-        // });
-        //
-        //$('#loading').hide();
-        //$('#chart').show();
+        ref.once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var weighInDate = $filter('date')(new Date(childSnapshot.val().date), 'm/d/yyyy');
+                chartData.dates.push(weighInDate);
+                chartData.weights.push(childSnapshot.val().weight);
+            });
+
+            console.log(chartData.dates);
+            console.log(chartData.weights);
+
+
+            new Chartist.Line('.ct-chart', {
+                labels: chartData.dates,
+                series: [chartData.weights]
+            }, {
+                low: 150
+            });
+
+            $('#chart').fadeIn();
+        });
     });
 
     app.controller('ListController', function($scope, weights) {
@@ -66,43 +77,4 @@
         }
     });
 
-    function getData() {
-        return [{
-            "date": '2016-01-03',
-            "weight": 183.00
-        }, {
-            "date": '2016-01-09',
-            "weight": 180.00
-        }, {
-            "date": '2016-01-16',
-            "weight": 178.00
-        }, {
-            "date": '2016-01-29',
-            "weight": 177.00
-        }, {
-            "date": '2016-02-06',
-            "weight": 173.50
-        }, {
-            "date": '2016-02-09',
-            "weight": 175.00
-        }, {
-            "date": '2016-02-12',
-            "weight": 173.00
-        }, {
-            "date": '2016-02-18',
-            "weight": 172.00
-        }, {
-            "date": '2016-02-20',
-            "weight": 170.00
-        }, {
-            "date": '2016-02-26',
-            "weight": 169.60
-        }, {
-            "date": '2016-03-03',
-            "weight": 172.30
-        }, {
-            "date": '2016-03-08',
-            "weight": 175.30
-        }];
-    }
 })();
