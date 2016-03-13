@@ -1,5 +1,9 @@
 (function() {
-    var app = angular.module('weighIn', ['ngRoute', 'ngAnimate', 'firebase']);
+    var dependencies = ['ngRoute', 'ngAnimate', 'firebase', 'jcs-autoValidate'];
+
+    var app = angular.module('weighIn', dependencies);
+
+    app.constant('FirebaseUrl', 'https://watch-yo-weight.firebaseio.com');
 
     app.config(function($routeProvider) {
         $routeProvider
@@ -17,19 +21,30 @@
             });
     });
 
-    app.constant('FirebaseUrl', 'https://watch-yo-weight.firebaseio.com');
-
     app.service('rootRef', ['FirebaseUrl', Firebase]);
 
-    app.service('weights', function(rootRef, $firebase, $firebaseArray) {
+    app.service('weights', function(rootRef, $firebaseObject, $firebaseArray) {
         var weightsRef = rootRef.child('weights');
 
         this.get = function(date) {
-            return $firebase(weightsRef.child(date));
+            return $firebaseObject(weightsRef.child(date));
         }
 
         this.all = function() {
             return $firebaseArray(weightsRef);
+        }
+
+        this.add = function(weighInDate, weight) {
+            var allWeights = $firebaseArray(weightsRef);
+
+            var newWeight = {
+                "date": weighInDate,
+                "weight": weight
+            };
+
+            allWeights.$add(newWeight).then(function(ref) {
+                return ref.key();
+            });
         }
     });
 
@@ -37,23 +52,17 @@
 
         $scope.weights = weights.all();
 
-        var url = 'https://watch-yo-weight.firebaseio.com/weights';
-        var ref = new Firebase(url);
         var chartData = {
             dates: [],
             weights: []
         };
 
-        ref.once('value', function(snapshot) {
+        $scope.weights.$loaded().then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                var weighInDate = $filter('date')(new Date(childSnapshot.val().date), 'm/d/yyyy');
+                var weighInDate = $filter('date')(new Date(childSnapshot.date), 'm/d/yyyy');
                 chartData.dates.push(weighInDate);
-                chartData.weights.push(childSnapshot.val().weight);
+                chartData.weights.push(childSnapshot.weight);
             });
-
-            console.log(chartData.dates);
-            console.log(chartData.weights);
-
 
             new Chartist.Line('.ct-chart', {
                 labels: chartData.dates,
@@ -70,10 +79,13 @@
         $scope.weights = weights.all();
     });
 
-    app.controller('AddWeightController', function($scope) {
+    app.controller('AddWeightController', function($scope, $filter, weights) {
+        $scope.weighInDate = $filter('date')(new Date(), 'MM/dd/yyyy');
+
         $scope.addWeight = function() {
-            console.log($scope.weight);
-            console.log($scope.date);
+            var weighInDateParts = $scope.weighInDate.split('/')
+            var weighInDate = weighInDateParts[2] + '-' + weighInDateParts[0] + '-' + weighInDateParts[1];
+            weights.add(weighInDate, $scope.weight);
         }
     });
 
