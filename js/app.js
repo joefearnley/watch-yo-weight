@@ -67,6 +67,8 @@
             new Chartist.Line('.ct-chart', {
                 labels: chartData.dates,
                 series: [chartData.weights]
+            }, {
+                showArea: true
             });
         });
     });
