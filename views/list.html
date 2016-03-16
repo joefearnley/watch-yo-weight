@@ -1,27 +1,19 @@
-<h2>List</h2>
-
-<div class="row">
-    <div class="col-sm-offset-2 col-md-8">
-
 <div ng-controller="ListController">
-    <div ng-if="weights.count > 0">
-        <div class="row weight-list" ng-repeat="weight in weights">
-            <div class="col-xs-4 col-sm-2">
-                {{ weight.date | date:'MM/dd/yyyy' }}
-            </div>
-            <div class="col-xs-3 col-sm-2">
-                {{ weight.weight }} lbs
-            </div>
-            <div class="col-xs-5 col-sm-8">
-                <button type="button" class="btn btn-danger pull-right delete-weight" data-weight-id="">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </button>
+    <div class="row">
+        <div class="col-sm-offset-2 col-md-8">
+            <div class="row weight-list" ng-repeat="weight in weights">
+                <div class="col-xs-4 col-sm-2">
+                    {{ weight.date | date:'m/dd/yyyy' }}
+                </div>
+                <div class="col-xs-3 col-sm-2">
+                    {{ weight.weight }} lbs
+                </div>
+                <div class="col-xs-5 col-sm-8">
+                    <button type="button" class="btn btn-danger pull-right delete-weight" ng-click="weights.$remove(weight)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div ng-if="weights.count == 0">
-        <p>
-            No Weigh Ins Found
-        </p>
     </div>
 </div>

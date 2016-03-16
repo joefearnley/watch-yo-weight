@@ -38,8 +38,8 @@
             var allWeights = $firebaseArray(weightsRef);
 
             var newWeight = {
-                "date": weighInDate,
-                "weight": weight
+                'date': weighInDate,
+                'weight': weight
             };
 
             allWeights.$add(newWeight).then(function(ref) {
@@ -67,11 +67,7 @@
             new Chartist.Line('.ct-chart', {
                 labels: chartData.dates,
                 series: [chartData.weights]
-            }, {
-                low: 150
             });
-
-            $('#chart').fadeIn();
         });
     });
 
@@ -79,13 +75,15 @@
         $scope.weights = weights.all();
     });
 
-    app.controller('AddWeightController', function($scope, $filter, weights) {
+    app.controller('AddWeightController', function($scope, $filter, $location, weights) {
         $scope.weighInDate = $filter('date')(new Date(), 'MM/dd/yyyy');
 
         $scope.addWeight = function() {
             var weighInDateParts = $scope.weighInDate.split('/')
             var weighInDate = weighInDateParts[2] + '-' + weighInDateParts[0] + '-' + weighInDateParts[1];
             weights.add(weighInDate, $scope.weight);
+
+            $location.path('/list');
         }
     });
 
