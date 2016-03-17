@@ -59,17 +59,28 @@
 
         $scope.weights.$loaded().then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                var weighInDate = $filter('date')(new Date(childSnapshot.date), 'm/d/yyyy');
+                var weighInDate = $filter('date')(new Date(childSnapshot.date), 'M/d/yy');
                 chartData.dates.push(weighInDate);
                 chartData.weights.push(childSnapshot.weight);
             });
+
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    axisX: {
+                        labelInterpolationFnc: function(value, index) {
+                            return index % 4 === 0 ? value : null;
+                        }
+                    }
+                }]
+            ];
 
             new Chartist.Line('.ct-chart', {
                 labels: chartData.dates,
                 series: [chartData.weights]
             }, {
-                showArea: true
-            });
+                showArea: true,
+                lineSmooth: false
+            }, responsiveOptions);
         });
     });
 
@@ -78,7 +89,7 @@
     });
 
     app.controller('AddWeightController', function($scope, $filter, $location, weights) {
-        $scope.weighInDate = $filter('date')(new Date(), 'MM/dd/yyyy');
+        $scope.weighInDate = $filter('date')(new Date(), 'M/dd/yyyy');
 
         $scope.addWeight = function() {
             var weighInDateParts = $scope.weighInDate.split('/')
