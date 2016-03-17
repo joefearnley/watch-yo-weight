@@ -18,7 +18,11 @@
             .when('/add', {
                 templateUrl: 'views/add.html',
                 controller: 'AddWeightController'
-            });
+            })
+            .when('/login', {
+                templateUrl: 'views/login.html',
+                controller: 'LoginController'
+            });;
     });
 
     app.service('rootRef', ['FirebaseUrl', Firebase]);
@@ -97,6 +101,22 @@
             weights.add(weighInDate, $scope.weight);
 
             $location.path('/list');
+        };
+    });
+
+    app.controller('LoginController', function($scope, rootRef) {
+
+        $scope.login = function() {
+            rootRef.authWithPassword({
+                email: $scope.email,
+                password: $scope.password
+            }, function(error, authData) {
+                if (error) {
+                    console.log('Login Failed!', error);
+                } else {
+                    console.log('Authenticated successfully with payload:', authData);
+                }
+            });
         }
     });
 
