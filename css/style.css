@@ -47,33 +47,6 @@
     border-bottom: 1px #ddd solid;
 }
 
-<<<<<<< HEAD
-.fade {
-    height: 100%;
-    opacity: 1;
-}
-
-.fade.ng-enter,
-.fade.ng-leave {
-    -webkit-transition: all 1s ease;
-    transition: all 1s ease;
-}
-
-.fade.ng-enter {
-    opacity: 0;
-}
-
-.fade.ng-enter-active {
-    opacity: 1;
-}
-
-.fade.ng-leave {
-    opacity: 1;
-}
-
-.fade.ng-leave-active {
-    opacity: 0;
-=======
 @media only screen and (max-width : 320px) {
     a.navbar-brand {
         padding-left: 0px;
