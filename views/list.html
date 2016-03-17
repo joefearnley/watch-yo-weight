@@ -3,12 +3,21 @@
         <div class="col-sm-offset-2 col-md-8">
             <div class="row weight-list" ng-repeat="weight in weights">
                 <div class="col-xs-4 col-sm-2">
+<<<<<<< HEAD
                     {{ weight.date | date:'m/dd/yyyy' }}
                 </div>
                 <div class="col-xs-3 col-sm-2">
                     {{ weight.weight }} lbs
                 </div>
                 <div class="col-xs-5 col-sm-8">
+=======
+                    {{ weight.date | date : 'M/d/yyyy' }}
+                </div>
+                <div class="col-xs-4 col-sm-3">
+                    {{ weight.weight }} lbs
+                </div>
+                <div class="col-xs-4 col-sm-7">
+>>>>>>> gh-pages
                     <button type="button" class="btn btn-danger pull-right delete-weight" ng-click="weights.$remove(weight)">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>

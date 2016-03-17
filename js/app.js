@@ -59,15 +59,39 @@
 
         $scope.weights.$loaded().then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
+<<<<<<< HEAD
                 var weighInDate = $filter('date')(new Date(childSnapshot.date), 'm/d/yyyy');
+=======
+                var weighInDate = $filter('date')(new Date(childSnapshot.date), 'M/d/yy');
+>>>>>>> gh-pages
                 chartData.dates.push(weighInDate);
                 chartData.weights.push(childSnapshot.weight);
             });
 
+<<<<<<< HEAD
             new Chartist.Line('.ct-chart', {
                 labels: chartData.dates,
                 series: [chartData.weights]
             });
+=======
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    axisX: {
+                        labelInterpolationFnc: function(value, index) {
+                            return index % 4 === 0 ? value : null;
+                        }
+                    }
+                }]
+            ];
+
+            new Chartist.Line('.ct-chart', {
+                labels: chartData.dates,
+                series: [chartData.weights]
+            }, {
+                showArea: true,
+                lineSmooth: false
+            }, responsiveOptions);
+>>>>>>> gh-pages
         });
     });
 
@@ -76,7 +100,11 @@
     });
 
     app.controller('AddWeightController', function($scope, $filter, $location, weights) {
+<<<<<<< HEAD
         $scope.weighInDate = $filter('date')(new Date(), 'MM/dd/yyyy');
+=======
+        $scope.weighInDate = $filter('date')(new Date(), 'M/dd/yyyy');
+>>>>>>> gh-pages
 
         $scope.addWeight = function() {
             var weighInDateParts = $scope.weighInDate.split('/')
