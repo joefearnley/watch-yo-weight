@@ -110,7 +110,7 @@
     });
 
     app.controller('AddWeightController', function($scope, $filter, $location, weights) {
-        $scope.weighInDate = $filter('date')(new Date(), 'M/dd/yyyy');
+        $scope.weighInDate = $filter('date')(new Date(), 'MM/dd/yyyy');
 
         $scope.addWeight = function() {
             var weighInDateParts = $scope.weighInDate.split('/')
