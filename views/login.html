@@ -5,7 +5,7 @@
                 <form ng-submit="login()" novalidate="novalidate">
                     <div class="form-group">
                         <label for="weigh-in-date">Email</label>
-                        <input type="email" ng-model="email" class="form-control datepicker" placeholder="username" required>
+                        <input type="email" ng-model="email" class="form-control" placeholder="username" required>
                     </div>
                     <div class="form-group">
                         <label for="weight">Password</label>
@@ -22,10 +22,3 @@
         </div>
     </div>
 </div>
-<script>
-    $(function() {
-        $('.datepicker').datepicker({
-            autoclose: true
-        });
-    });
-</script>
