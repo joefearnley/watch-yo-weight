@@ -5,25 +5,58 @@
 
     app.constant('FirebaseUrl', 'https://watch-yo-weight.firebaseio.com');
 
+    app.run(['$rootScope', '$location', function($rootScope, $location) {
+        $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
+            if (error === 'AUTH_REQUIRED') {
+                $location.path('/login');
+            }
+        });
+    }]);
+
     app.config(function($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                resolve: {
+                    'currentAuth': ['Auth', function(Auth) {
+                        return Auth.$requireAuth();
+                    }]
+                }
             })
             .when('/list', {
                 templateUrl: 'views/list.html',
-                controller: 'ListController'
+                controller: 'ListController',
+                resolve: {
+                    'currentAuth': ['Auth', function(Auth) {
+                        return Auth.$requireAuth();
+                    }]
+                }
             })
             .when('/add', {
                 templateUrl: 'views/add.html',
-                controller: 'AddWeightController'
+                controller: 'AddWeightController',
+                resolve: {
+                    'currentAuth': ['Auth', function(Auth) {
+                        return Auth.$requireAuth();
+                    }]
+                }
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginController'
-            });;
+            })
+            .when('/logout', {
+                templateUrl: 'views/logout.html',
+                controller: 'LogoutController'
+            });
     });
+
+    app.factory('Auth', ['$firebaseAuth', 'rootRef',
+        function($firebaseAuth, rootRef) {
+            return $firebaseAuth(rootRef);
+        }
+    ]);
 
     app.service('rootRef', ['FirebaseUrl', Firebase]);
 
@@ -52,8 +85,7 @@
         }
     });
 
-    app.controller('HomeController', function($scope, $filter, weights) {
-
+    app.controller('HomeController', function($scope, $filter, $location, weights, Auth) {
         $scope.weights = weights.all();
 
         var chartData = {
@@ -105,19 +137,27 @@
     });
 
     app.controller('LoginController', function($scope, rootRef) {
-
         $scope.login = function() {
             rootRef.authWithPassword({
                 email: $scope.email,
                 password: $scope.password
             }, function(error, authData) {
                 if (error) {
-                    console.log('Login Failed!', error);
+                    console.log('Login Failed...redirecting.', error);
                 } else {
-                    console.log('Authenticated successfully with payload:', authData);
+                    window.location.href= '#/';
                 }
             });
         }
+    });
+
+    app.controller('LogoutController', function($scope, $location, Auth) {
+        $scope.init = function() {
+            Auth.$unauth();
+            $location.path('/login');
+        }
+
+        $scope.init();
     });
 
 })();
