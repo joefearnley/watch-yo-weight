@@ -1,4 +1,6 @@
-
 <div ng-controller="HomeController">
-    <div class="ct-chart ct-perfect-fourth"></div>
+    <canvas id="line" class="chart chart-line" chart-data="data"
+        chart-labels="labels" chart-legend="false" chart-series="series"
+        chart-click="onClick" >
+    </canvas>
 </div>

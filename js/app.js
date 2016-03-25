@@ -1,5 +1,5 @@
 (function() {
-    var dependencies = ['ngRoute', 'ngAnimate', 'firebase', 'jcs-autoValidate'];
+    var dependencies = ['ngRoute', 'ngAnimate', 'firebase', 'jcs-autoValidate', 'chart.js'];
 
     var app = angular.module('weighIn', dependencies);
 
@@ -100,23 +100,8 @@
                 chartData.weights.push(childSnapshot.weight);
             });
 
-            var responsiveOptions = [
-                ['screen and (max-width: 640px)', {
-                    axisX: {
-                        labelInterpolationFnc: function(value, index) {
-                            return index % 4 === 0 ? value : null;
-                        }
-                    }
-                }]
-            ];
-
-            new Chartist.Line('.ct-chart', {
-                labels: chartData.dates,
-                series: [chartData.weights]
-            }, {
-                showArea: true,
-                lineSmooth: false
-            }, responsiveOptions);
+            $scope.labels = chartData.dates
+            $scope.data = [chartData.weights];
         });
     });
 
