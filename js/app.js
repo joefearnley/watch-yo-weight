@@ -1,5 +1,11 @@
 (function() {
-    var dependencies = ['ngRoute', 'ngAnimate', 'firebase', 'jcs-autoValidate', 'chart.js'];
+    var dependencies = [
+        'ngRoute',
+        'ngAnimate',
+        'firebase',
+        'jcs-autoValidate',
+        'chart.js'
+    ];
 
     var app = angular.module('weighIn', dependencies);
 
@@ -144,5 +150,4 @@
 
         $scope.init();
     });
-
 })();
