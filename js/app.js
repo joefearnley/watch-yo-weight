@@ -91,28 +91,42 @@
         }
     });
 
-    app.controller('HomeController', function($scope, $filter, $location, weights, Auth) {
-        $scope.weights = weights.all();
-
-        var chartData = {
-            dates: [],
-            weights: []
+    app.factory('WeightService', function($http) {
+        var url = 'https://watch-yo-weight.firebaseio.com/weights';
+        return {
+            all: function() {
+                return $http.get(url);
+            }
         };
+    });
 
-        $scope.weights.$loaded().then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                var weighInDate = $filter('date')(new Date(childSnapshot.date), 'M/d/yy');
-                chartData.dates.push(weighInDate);
-                chartData.weights.push(childSnapshot.weight);
+    app.controller('HomeController',
+        function($scope, $filter, $location, weights, Auth, WeightService) {
+            $scope.weights = weights.all();
+
+            var chartData = {
+                dates: [],
+                weights: []
+            };
+
+            $scope.weights.$loaded().then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var weighInDate = $filter('date')(new Date(childSnapshot.date), 'M/d/yy');
+                    chartData.dates.push(weighInDate);
+                    chartData.weights.push(childSnapshot.weight);
+                });
+
+                $scope.labels = chartData.dates
+                $scope.data = [chartData.weights];
             });
 
-            $scope.labels = chartData.dates
-            $scope.data = [chartData.weights];
-        });
+            WeightService.all().then(function(response) {
+                console.log(response);
+            });
     });
 
     app.controller('ListController', function($scope, weights) {
-        $scope.weights = weights.all();
+        $scope.weights = weights.all().reverse();
     });
 
     app.controller('AddWeightController', function($scope, $filter, $location, weights) {
