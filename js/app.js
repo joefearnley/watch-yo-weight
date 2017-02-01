@@ -92,7 +92,7 @@
     });
 
     app.factory('WeightService', function($http) {
-        var url = 'https://watch-yo-weight.firebaseio.com/weights';
+        var url = 'https://watch-yo-weight.firebaseio.com/weights.json';
         return {
             all: function() {
                 return $http.get(url);
@@ -121,7 +121,7 @@
             });
 
             WeightService.all().then(function(response) {
-                console.log(response);
+                console.log(response.data);
             });
     });
 
