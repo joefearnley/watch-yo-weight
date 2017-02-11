@@ -1,4 +1,4 @@
-axios.get('https://watch-yo-weight.firebaseio.com/weights.json')
+axios.get('data/weights.json')
     .then(function(response) {
         var dates = [];
         var weights = [];
@@ -15,7 +15,7 @@ axios.get('https://watch-yo-weight.firebaseio.com/weights.json')
             data:{
                 labels: dates,
                 datasets:[{
-                    label: '',
+                    label: 'Weight in lbs',
                     data: weights,
                     borderWidth: 1
                 }]
