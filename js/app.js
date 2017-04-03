@@ -1,6 +1,6 @@
 
 axios.get('data/weights.json')
-    .then(function(response) {
+    .then((response) => {
         let dates = [];
         let weights = [];
         for (let key in response.data) {
@@ -33,9 +33,9 @@ function createChart(weights, dates) {
 function createStats(weights, dates) {
     let highestWeight = weights.reduce((a, b) =>  (a > b) ? a : b);
 
-    const latestWeight = highestWeight - weights[weights.length - 1];
+    const weightLost = highestWeight - weights[weights.length - 1];
     const totalWeightLoss = document.querySelector('#total-weight-loss');
-    totalWeightLoss.innerHTML = latestWeight.toFixed(2) + ' lbs';
+    totalWeightLoss.innerHTML = weightLost.toFixed(2) + ' lbs';
 
     const totalTime = document.querySelector('#total-time');
     const firstDate = new Date(dates[0]);
