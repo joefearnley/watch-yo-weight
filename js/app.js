@@ -1,19 +1,4 @@
 
-axios.get('data/weights.json')
-    .then((response) => {
-        let dates = [];
-        let weights = [];
-        for (let key in response.data) {
-            if (response.data.hasOwnProperty(key)) {
-                let dateParts = response.data[key].date.split('-');
-                dates.push(dateParts[1] + '/' + dateParts[2] + "/" + dateParts[0]);
-                weights.push(response.data[key].weight);
-            }
-        }
-
-        createChart(weights, dates);
-        createStats(weights, dates);
-    });
 
 function createChart(weights, dates) {
     new Chart(document.querySelector('#weightChart'), {
@@ -45,3 +30,19 @@ function createStats(weights, dates) {
 
     totalTime.innerHTML = (months / 12).toFixed(1) + ' years';
 }
+
+fetch('data/weights.json')
+    .then(response => {
+        return response.json();
+    }).then(response => {
+        let dates = [];
+        let weights = [];
+        for (let key in response) {
+            let dateParts = response[key].date.split('-');
+            dates.push(dateParts[1] + '/' + dateParts[2] + "/" + dateParts[0]);
+            weights.push(response[key].weight);
+        }
+
+        createChart(weights, dates);
+        createStats(weights, dates);
+    });
